@@ -1,5 +1,5 @@
-module.exports = (theFunc)=> (req , res , next)=>{
-    Promise.resolve(theFunc(req , res , next)).catch(next)
+module.exports = (func)=>{
+    return (req , res , next) => {
+        func(req , res , next).catch(err=> next(err))
+    }
 }
-
-//problem
