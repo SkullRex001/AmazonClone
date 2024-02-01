@@ -22,11 +22,9 @@ class ApiFeatures {
         const removeFields = ["keyword" , "page" , "limit"]
         removeFields.forEach((key)=> delete querycopy[key]);
 
-        console.log(querycopy)
         querycopy = JSON.stringify(querycopy)
         querycopy = querycopy.replace(/\b(gt|gte|lt|lte)\b/g , (key=> `$${key}`))
-        console.log(querycopy)
- 
+   
         this.query = this.query.find(JSON.parse(querycopy));
         return this
 
