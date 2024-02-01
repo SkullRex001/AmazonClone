@@ -16,6 +16,16 @@ class ApiFeatures {
         this.query = this.query.find({...keyword})  //doubt
         return this
     }
+
+    filter() {
+        const querycopy = {...this.queryStr};
+        const removeFields = ["keyword" , "page" , "limit"]
+        removeFields.forEach((key)=> delete querycopy[key]);
+ 
+        this.query = this.query.find(querycopy);
+        return this
+
+    }
 }
 
 module.exports = ApiFeatures;
