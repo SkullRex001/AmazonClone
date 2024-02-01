@@ -18,12 +18,27 @@ class ApiFeatures {
     }
 
     filter() {
-        const querycopy = {...this.queryStr};
+        let querycopy = {...this.queryStr};
         const removeFields = ["keyword" , "page" , "limit"]
         removeFields.forEach((key)=> delete querycopy[key]);
+
+        console.log(querycopy)
+        querycopy = JSON.stringify(querycopy)
+        querycopy = querycopy.replace(/\b(gt|gte|lt|lte)\b/g , (key=> `$${key}`))
+        console.log(querycopy)
  
-        this.query = this.query.find(querycopy);
+        this.query = this.query.find(JSON.parse(querycopy));
         return this
+
+    }
+
+    pagination(productPerPage){
+        const currentPage = Number(this.queryStr.page)||1;
+        
+        const skip = productPerPage*(currentPage - 1)
+
+        this.query = this.query.limit(productPerPage).skip(skip)
+        return this;
 
     }
 }
