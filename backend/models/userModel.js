@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 
 
 const userSchema = new mongoose.Schema({
@@ -20,7 +22,8 @@ const userSchema = new mongoose.Schema({
     password : {
         type : String ,
         require : true ,
-        minLength : [8 , "Password should be greater than 8 character"]
+        minLength : [8 , "Password should be greater than 8 character"],
+        select : false
 
     },
 
@@ -43,5 +46,30 @@ const userSchema = new mongoose.Schema({
     resetPasswordToken : String,
     resetPasswordExpire : Date,
 })
+
+ userSchema.pre("save" , async function(next) {
+
+    if(!this.isModified("password")) {
+        next()
+    } //if we are only updaing fields like username , email , phone number etc.
+    this.password = await bcrypt.hash(this.password , 10)
+
+ })
+
+ // JWT function
+
+ userSchema.methods.getJWTToken = function() {
+    return jwt.sign({ id : this._id} , process.env.JWT_SECREAT , {
+        expiresIn : process.env.JWT_EXPIRE
+    })
+ }
+
+
+ userSchema.methods.comparePassword = async function(enteredPassword) {
+    return await bcrypt.compare(enteredPassword , this.password);
+ }
+
+
+
 
 module.exports = mongoose.model('User' , userSchema);
