@@ -5,7 +5,7 @@ const User = require('../models/userModel')
 
 
 exports.isAuthenticatedUser = catchAsyncError(async(req , res, next)=>{
-    const {token} = req.cookies;  //provided by cookie-parser, not express
+    const {token} = req.cookies;  //provided by cookie-parser, not express, It represents an object containing all the cookies sent by the client in the request.
 
 
 
@@ -16,5 +16,5 @@ exports.isAuthenticatedUser = catchAsyncError(async(req , res, next)=>{
     const decodedData = jwt.verify(token , process.env.JWT_SECREAT) //if failed , it will throw error , which will be handled by error handler
 
     req.user = await User.findById(decodedData.id);
-    next()
+    next() //save logged in user 
 })
