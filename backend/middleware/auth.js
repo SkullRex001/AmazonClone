@@ -7,8 +7,6 @@ const User = require('../models/userModel')
 exports.isAuthenticatedUser = catchAsyncError(async(req , res, next)=>{
     const {token} = req.cookies;  //provided by cookie-parser, not express, It represents an object containing all the cookies sent by the client in the request.
 
-
-
     if(!token) {
         return next(new ErrorHandler("Please Login to access this resource" , 401));
     }
@@ -18,3 +16,14 @@ exports.isAuthenticatedUser = catchAsyncError(async(req , res, next)=>{
     req.user = await User.findById(decodedData.id);
     next() //save logged in user 
 })
+
+exports.authorizeRoles = (...role)=> {
+    return (req , res , next)=>{
+        if(!role.includes(req.user.role)) {
+            next(new ErrorHandler(`Role : ${req.user.role} is not allowed to access this resource`))
+        } 
+
+        next();
+    }
+   
+}
