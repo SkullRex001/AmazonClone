@@ -8,8 +8,8 @@ const sendToken = (user , statusCode , res)=>{
         ),
         httpOnly : true
     }
-
-    res.status(statusCode).cookie("Authentication" , token , options).json({
+     //res.cookie is a method provided by cookie-parser, not express
+    res.status(statusCode).cookie("token" , token , options).json({
         success : true,
         user, 
         token
