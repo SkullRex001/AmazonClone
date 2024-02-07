@@ -146,7 +146,7 @@ exports.resetPassword = catchAsyncError(async (req , res , next)=>{
     sendToken(user , 200 , res);
 })
 
-
+// get user details
 exports.getUserDetails = catchAsyncError(async(req , res, next)=>{
     const user = await User.findById(req.user.id);
     res.status(200).json({
@@ -155,5 +155,125 @@ exports.getUserDetails = catchAsyncError(async(req , res, next)=>{
     })
 })
 
+
+//update user password
+exports.updatePassword = catchAsyncError(async(req , res, next)=>{
+    const user = await User.findById(req.user.id).select('+password');
+
+    const isPasswordMatched = await user.comparePassword(req.body.oldPassword)
+
+    if(!isPasswordMatched) {
+        return next(new ErrorHandler("old password is incorrect" , 400))
+    }
+
+    if(req.body.newPassword !== req.body.confirmPassword)
+    user.password = req.body.newPassword;
+
+    await user.save();
  
+    sendToken(user , 200 , res)
+})
+
+
+//update user profile
+ 
+
+exports.updateUserProfile = catchAsyncError(async(req , res, next)=>{
+
+    const newUserData = {
+        name : req.body.name,
+        email : req.body.email
+    }
+
+    //feature of changing dp will be added later
+
+    const user = await User.findByIdAndUpdate(req.user.id , newUserData)
+
+    res.status(200).json({
+        success : true,
+        user
+    })
+})
+
+
+// Get all users(admin)
+// I am thinking to transfer this to super admin feature
+
+exports.getAllUsers = catchAsyncError(async(req , res , next)=>{
+
+    const users = await User.find({});
+
+    res.status(200).json({
+        success : true ,
+        users
+    })
+
+
+})
+
+
+//Get User by ID(admin)
+
+exports.getSingleUser = catchAsyncError(async(req , res , next)=>{
+
+    const UserId = req.params.id;
+
+    const user = await User.findById(UserId)
+
+    if(!user) {
+        return next(new ErrorHandler(`User does not exist with ID : ${UserId}`))
+    }
+
+    res.status(200).json({
+        success : true ,
+        user
+    })
+
+
+})
+ 
+
+//update User Role (admin)
+
+exports.updateUserRole = catchAsyncError(async (req , res, next)=>{
+
+    const newUserData = {
+        name : req.body.name, //don't need
+        email : req.body.name, //don't need
+        role : req.body.role 
+    }
+
+    const user = await User.findByIdAndUpdate(req.params.id , newUserData)
+
+    if(!user) {
+        return next(new ErrorHandler(`User does not exist with ID : ${UserId}`))
+    }
+
+    
+
+    res.status(200).json({
+        success : true
+    })
+
+})
+
+//Delete User (Admin)
+
+exports.deleteUser = catchAsyncError(async (req , res , next)=>{
+    const user = await User.findById(req.params.id)
+    console.log(user)
+
+    //will be deleted from cloud later
+
+    if(!user) {
+        return next(new ErrorHandler(`User does not exist with ID : ${UserId}`))
+    }
+
+
+    await user.remove() //does not work
+
+    res.status(200).json({
+        success : true
+    })
+})
 
