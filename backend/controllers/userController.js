@@ -306,10 +306,7 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
             return; // Exit the loop early once a matching review is found
         }
     });
-
-    console.log(isReviewed)
    
-
     if (isReviewed) {
 
         product.reviews.forEach((rev) => {
@@ -339,3 +336,68 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
         success: true
     })
 }) 
+
+//get all reviews
+
+exports.getAllReviews = catchAsyncError(async (req , res , next)=>{
+    const product = await Product.findById(req.query.productId);
+    if(!product) {
+        return next(new ErrorHandler("Product not found" , 404))
+    }
+
+    res.status(200).json({
+        success : true,
+        review : product.reviews
+    })
+})
+
+exports.deleteReviews = catchAsyncError(async (req , res , next)=>{
+    const product = await Product.findById(req.query.productId);
+    
+    if(!product) {
+        return next(new ErrorHandler("Product not found" , 404))
+    }
+
+    const filteredReviews = product.reviews.filter((rev)=>{
+      return rev._id.toString() !== req.query.id.toString()
+    })
+
+    //saves all the review that we dont want to delete
+
+
+    //calculate the rating of the left reviews
+
+    let sum = 0;
+    filteredReviews.forEach((rev) => {
+        sum += rev.rating
+    })
+
+   
+
+   const ratings = sum / filteredReviews.length;
+
+   
+
+   //number of Reviews after deleting 
+
+   const numberOfReviews = filteredReviews.length;
+
+   await Product.findByIdAndUpdate( req.query.productId , {
+    reviews : filteredReviews,
+    ratings,
+    numberOfReviews
+
+   })
+
+   //problem :- Any user can delete any review
+
+
+
+    res.status(200).json({
+        success : true,
+        review : product.reviews
+    })
+})
+
+
+
