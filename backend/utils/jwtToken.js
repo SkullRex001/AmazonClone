@@ -1,6 +1,6 @@
 const sendToken = (user , statusCode , res)=>{
     const token = user.getJWTToken();
-
+  
     //options for cokkies
     const options = {
         expires : new Date(

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-
+//this schema is from users prospective
 const orderSchema = new mongoose.Schema({
     shippingInfo : {
         address : {
@@ -119,7 +119,7 @@ const orderSchema = new mongoose.Schema({
 
     },
     
-    deliveredAt : DataTransfer,
+    deliveredAt : Date,
 
     createdAt : {
         type : Date,
