@@ -1,5 +1,5 @@
 const Order = require("../models/orderModel")
-const Product = require("../models/productModel")
+// const Product = require("../models/productModel")
 const ErrorHandler = require("../utils/errorHandler")
 const catchAsyncError = require("../middleware/catchAsyncError")
 const updateStock = require("../utils/updateOrder")
@@ -77,11 +77,16 @@ exports.getAllOrders = catchAsyncError(async (req , res , next)=>{
 exports.updateOrder = catchAsyncError(async (req , res , next)=>{
 
     const order = await Order.findById(req.params.id);
+
+    if(!order){
+        return next(new ErrorHandler(`Order not found with the id ${req.params.id}`))
+    }
+   
     if(order.orderStatus === "Delivered") {
         return next( new ErrorHandler("You have already delivered this order" , 400));
     } //it is not a multi seller platform , so one user order will be dispached at once
-    console.log(order)
-
+    
+   
     order.orderItems.forEach(async (order)=>{
     await updateStock(order.product  , order.quantity) //sending product id and quantity in function
     })
@@ -102,13 +107,13 @@ exports.updateOrder = catchAsyncError(async (req , res , next)=>{
 //delete Order -- Admin
 
 exports.deleteOrder = catchAsyncError(async (req , res , next)=>{
-    const order = await Order.findById(req.params.id);
+    const orderToDelete = await Order.findById(req.params.id);
     
-    if(!order){
+    if(!orderToDelete){
         return next(new ErrorHandler(`Order not found with the id ${req.params.id}`))
     }
 
-    await order.remove(); //does not work
+    await Order.deleteOne({ _id: req.params.id }); 
 
     res.status(200).json({
         success: true

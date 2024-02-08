@@ -262,7 +262,6 @@ exports.updateUserRole = catchAsyncError(async (req, res, next) => {
 
 exports.deleteUser = catchAsyncError(async (req, res, next) => {
     const user = await User.findById(req.params.id)
-    console.log(user)
 
     //will be deleted from cloud later
 
@@ -271,7 +270,7 @@ exports.deleteUser = catchAsyncError(async (req, res, next) => {
     }
 
 
-    await user.remove() //does not work
+    await User.deleteOne({ _id: req.params.id }); 
 
     res.status(200).json({
         success: true,
