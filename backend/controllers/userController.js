@@ -31,7 +31,7 @@ exports.loginUser = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler("Please Enter Email & Password", 400));
     }
 
-    const user = await User.findOne({ email }).select("+password") //as we have given select: false in password
+    const user = await User.findOne({ email }).select("+password") //as we have given select: false in password , now if it will find id then it will also include password in user object
 
     if (!user) {
         return next(new ErrorHandler("Invalid email or password", 401))
@@ -80,6 +80,7 @@ exports.forgotPassword = catchAsyncError(async (req, res, next) => {
     const resetToken = user.getResetPasswordToken();
 
     await user.save({ validateBeforeSave: false });
+    //this saves the reset password token and expireDate in the database
 
 
     const resetPasswordUrl = `${req.protocol}://${req.get("host")}/api/v1/password/reset/${resetToken}`
@@ -89,17 +90,12 @@ exports.forgotPassword = catchAsyncError(async (req, res, next) => {
 
     try {
         //function to send mail
-
-
         await sendEmail({
             email: user.email,
             subject: `Ecommerce Website By AVS`,
             message
 
         })
-
-        console.log(message)
-
 
         res.status(200).json({
             success: true,
@@ -167,10 +163,13 @@ exports.updatePassword = catchAsyncError(async (req, res, next) => {
         return next(new ErrorHandler("old password is incorrect", 400))
     }
 
-    if (req.body.newPassword !== req.body.confirmPassword)
-        user.password = req.body.newPassword;
+    if (req.body.newPassword !== req.body.confirmPassword) {
+        next(new ErrorHandler("new password and confirm password do not match" , 400))
+    }
 
-    await user.save();
+    user.password = req.body.newPassword;
+
+    await user.save({ validateBeforeSave: false })
 
     sendToken(user, 200, res)
 })
@@ -186,6 +185,8 @@ exports.updateUserProfile = catchAsyncError(async (req, res, next) => {
         email: req.body.email
     }
 
+    //I think we need to ask for password in this feature
+
     //feature of changing dp will be added later
 
     const user = await User.findByIdAndUpdate(req.user.id, newUserData)
@@ -198,7 +199,6 @@ exports.updateUserProfile = catchAsyncError(async (req, res, next) => {
 
 
 // Get all users(admin)
-// I am thinking to transfer this to super admin feature
 
 exports.getAllUsers = catchAsyncError(async (req, res, next) => {
 
@@ -222,7 +222,7 @@ exports.getSingleUser = catchAsyncError(async (req, res, next) => {
     const user = await User.findById(UserId)
 
     if (!user) {
-        return next(new ErrorHandler(`User does not exist with ID : ${UserId}`))
+        return next(new ErrorHandler(`User does not exist with ID : ${UserId}` , 404))
     }
 
     res.status(200).json({
@@ -247,7 +247,7 @@ exports.updateUserRole = catchAsyncError(async (req, res, next) => {
     const user = await User.findByIdAndUpdate(req.params.id, newUserData)
 
     if (!user) {
-        return next(new ErrorHandler(`User does not exist with ID : ${UserId}`))
+        return next(new ErrorHandler(`User does not exist with ID : ${req.params.id}` , 404))
     }
 
 
@@ -266,7 +266,7 @@ exports.deleteUser = catchAsyncError(async (req, res, next) => {
     //will be deleted from cloud later
 
     if (!user) {
-        return next(new ErrorHandler(`User does not exist with ID : ${UserId}`))
+        return next(new ErrorHandler(`User does not exist with ID : ${req.params.id}` , 404))
     }
 
 
@@ -281,6 +281,7 @@ exports.deleteUser = catchAsyncError(async (req, res, next) => {
 
 
 //Create New Review or  Update the review
+//(if a user has already created review , the review will be updated , else addedd)
 
 exports.createProductReview = catchAsyncError(async (req, res, next) => {
     const { rating, comment, productId } = req.body;
@@ -302,7 +303,8 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
     product.reviews.forEach((rev) => {
         if (rev.user.toString() === req.user._id.toString()) {
             isReviewed = true; // Set isReviewed to true if a matching review is found
-            return; // Exit the loop early once a matching review is found
+            return; // Exit the loop early once a matching review is found;
+            //this will make us exit from callback of forEach , not the main function
         }
     });
    
@@ -321,6 +323,9 @@ exports.createProductReview = catchAsyncError(async (req, res, next) => {
         product.reviews.push(review);
         product.numberOfReviews = product.reviews.length
     }
+
+
+    //calculating Rating
 
     let sum = 0;
     product.reviews.forEach((rev) => {
@@ -349,6 +354,8 @@ exports.getAllReviews = catchAsyncError(async (req , res , next)=>{
         review : product.reviews
     })
 })
+
+//delete Reviews
 
 exports.deleteReviews = catchAsyncError(async (req , res , next)=>{
     const product = await Product.findById(req.query.productId);

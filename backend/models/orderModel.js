@@ -124,6 +124,7 @@ const orderSchema = new mongoose.Schema({
     createdAt : {
         type : Date,
         default : Date.now
+        //here we are not using Date.now() as it will be called immediately as soon as the model compiles , but By using Date.now without parentheses, Mongoose will call the function internally for each new document creation, ensuring that each document gets its own timestamp corresponding to the time of creation.
     }
 
 

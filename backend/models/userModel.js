@@ -57,7 +57,7 @@ const userSchema = new mongoose.Schema({
 
  })
 
- // JWT function
+ // JWT function(to create JWT with unique information)
 
  userSchema.methods.getJWTToken = function() {
     return jwt.sign({ id : this._id} , process.env.JWT_SECREAT , {

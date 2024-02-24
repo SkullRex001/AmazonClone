@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from "react-router-dom";
 import ReactStars from "react-rating-stars-component"
+import './Home.css'
 
 const options = {
     edit: false,
@@ -20,7 +21,7 @@ const Product = ({product}) => {
         <div>
             <ReactStars {...options}/> <span>(256 Reviews)</span>
         </div>
-        <span>product.price</span>
+        <span>{product.price}</span>
     
     </Link>
   )

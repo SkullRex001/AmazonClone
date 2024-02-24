@@ -10,7 +10,7 @@ const Product = require('../models/productModel')
 //only admin can create 
 exports.createProduct = catchAsyncError(async (req, res, next) => {
 
-    req.body.user = req.user.id; //this will assign logged in user id to product , so we can know who has created the product
+    req.body.user = req.user._id; //this will assign logged in user id to product , so we can know who has created the product
     const product = await Product.create(req.body)
 
     res.status(201).json({
@@ -24,7 +24,7 @@ exports.createProduct = catchAsyncError(async (req, res, next) => {
 //get all product
 exports.getAllProducts = catchAsyncError(async (req, res) => {
 
-    const productPerPage = 5;
+    const productPerPage = 8;
     const productCount = await Product.countDocuments()
 
 

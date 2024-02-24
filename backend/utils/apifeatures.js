@@ -1,4 +1,10 @@
 class ApiFeatures {
+
+    //Product.find() , req.query-> this will contain keyword for search
+    //these are sent as a first and the second argument
+
+    //Look for the comment below
+
     constructor(query , queryStr) {
         this.query = query ;
         this.queryStr = queryStr;
@@ -9,12 +15,13 @@ class ApiFeatures {
             name:{
                 $regex: this.queryStr.keyword,
                 $options : 'i'
-
             }
         }:{}
 
-        this.query = this.query.find({...keyword})  //doubt
+        this.query = this.query.find({...keyword})
+        // this makes the returned object equal to query property so it can be later accessed by .(dot) operatior
         return this
+        //this returns the reference to the same object so we can chain methods
     }
 
     filter() {
@@ -43,3 +50,26 @@ class ApiFeatures {
 }
 
 module.exports = ApiFeatures;
+
+
+
+
+//note:-
+
+// In Mongoose, the find() method returns a query object that represents a MongoDB query. This query object allows you to chain various query-building methods (such as find(), sort(), limit(), etc.) before executing the query using methods like exec().
+
+// So, if this.query is indeed a Mongoose query object, then calling find() on it would work as expected, allowing you to further refine the query.
+
+
+//example :-
+
+// // Assume Product is a Mongoose model
+// const query = Product.find(); // Returns a Mongoose query object
+// query.find({ category: 'electronics' }); // Chaining find() method on the query object
+// query.exec((err, products) => {
+//   if (err) {
+//     console.error(err);
+//     return;
+//   }
+//   console.log(products); // Array of products that match the query
+// });

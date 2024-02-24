@@ -2,7 +2,7 @@ const Order = require("../models/orderModel")
 // const Product = require("../models/productModel")
 const ErrorHandler = require("../utils/errorHandler")
 const catchAsyncError = require("../middleware/catchAsyncError")
-const updateStock = require("../utils/updateOrder")
+const updateStock = require("../utils/updateStock")
 
 
 //created new order
@@ -23,10 +23,10 @@ exports.newOrder = catchAsyncError(async (req , res, next)=>{
     })
 })
 
-//get Single Product
+//get Single Order
 exports.getSingleOrder = catchAsyncError(async (req , res , next)=>{
     const order = await Order.findById(req.params.id).populate("user" , "name email")
-    //will look for user id in user Database and show user name and email in order object , insted of user id
+    // It will look for the user property in schema and add name and email using reference
     res.status(200).json({
         success : true,
         order
