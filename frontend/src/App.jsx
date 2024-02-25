@@ -7,6 +7,7 @@ import WebFont from 'webfontloader';
 
 import Footer from "./components/layout/Footer/Footer"
 import Home from "./components/Home/Home.jsx"
+import ProductDetails from "./components/Product/ProductDetails.jsx"
 
 function App() {
   useEffect(()=>{
@@ -23,6 +24,7 @@ function App() {
     <Header/>
     <Routes>
     <Route path='/' Component={Home}/>
+    <Route path='/product/:id' Component={ProductDetails}/>
     </Routes>
     <Footer/>
     </BrowserRouter>
