@@ -45,9 +45,9 @@ const ProductDetails = () => {
 
                     </Carousel>
                 </div>
-                <div>
+                <div className='detail-box'>
                     <div className='detailsBlock-1'>
-                        <h2>{product.name}</h2>
+                        <h1>{product.name}</h1>
                         <p>Product # {product._id}</p>
                     </div>
                     <div className='detailsBlock-2'>
@@ -58,11 +58,11 @@ const ProductDetails = () => {
                         <h1>&#8377; {product.price}</h1>
                         <div className="detailsBlock-3-1">
                             <div className="detailsBlock-3-1-1">
-                            <button>-</button>
+                            <button>+</button>
                             <input type="number" value="1" />
                             <button>-</button>
                             </div>{" "}
-                            <button>Add to Cart</button>
+                            <button className='AddToCart'>Add to Cart</button>
                         </div>
                         <p>
                             Status: {" "}
@@ -75,10 +75,12 @@ const ProductDetails = () => {
                     </div>
 
                     <div className='detailsBlock-4'>
-                        Description : <p>{product.description}</p>
+                      <b>  Description : </b> <p>{product.description}</p>
                     </div>
 
-                    <button className='submitReview'> Submit Review</button>
+
+                    <button className='submitReviews'> Submit Review</button>
+                 
 
                 </div>
 
