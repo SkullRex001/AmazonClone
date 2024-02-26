@@ -1,0 +1,28 @@
+.products{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 5vw;
+    margin-top: 2vw;
+    align-items: center;
+    justify-content: space-evenly;
+    
+   
+}
+
+.productHeading{
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Roboto;
+   padding: 3vw 5vw;
+    margin-top: 2vw;
+    font-size: 40px;
+   
+
+}
+
+h1{
+    color: rgb(0, 67, 0);
+}
+

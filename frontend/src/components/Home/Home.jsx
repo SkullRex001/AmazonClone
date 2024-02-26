@@ -23,7 +23,6 @@ const Home = () => {
   useEffect(()=>{
 
     if(error) {
-      console.log(error)
       return toast.info(error, {
         position: "top-center",
         autoClose: 1500,

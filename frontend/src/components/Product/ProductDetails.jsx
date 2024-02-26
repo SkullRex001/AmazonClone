@@ -5,6 +5,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getProductDetails } from '../../actions/productAction'
 import { useParams } from 'react-router-dom'
 import ReactStars from "react-rating-stars-component"
+import ReviewCard from './ReviewCard.jsx'
+import './ReviewCard.css'
+import Loader from '../layout/Loader/Loader.jsx'
+import {toast , Bounce} from 'react-toastify'
+
 
 
 
@@ -13,24 +18,38 @@ const ProductDetails = () => {
     console.log(id)
     const dispatch = useDispatch();
     const { product, loading, error } = useSelector(state => state.productDetails)
+    console.log(error)
 
     useEffect(() => {
+        if(error) {
+            return toast.info(error, {
+              position: "top-center",
+              autoClose: 1500,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              transition: Bounce,
+              });
+          }
         dispatch(getProductDetails(id)) 
     
-    }, [dispatch, id])
+    }, [dispatch, id , error])
     const options = {
         edit: false,
         color: "rgba(20 , 20 , 20 , 0.1)",
         activeColor: "tomato",
         size: window.innerWidth < 600 ? 20 : 25,
-        value: product.rating,
+        value: product && product.rating ? product.rating : 0,
         isHalf: true,
         count : 5
     }
 
-
     return (
-        <>
+       <>
+       {loading? <Loader/>: product && ( <>
             <div className="ProductDetails">
                 <div className='IMAGE'>
                     <Carousel>
@@ -85,7 +104,21 @@ const ProductDetails = () => {
                 </div>
 
             </div>
-        </>
+
+            
+            <div className='reviewsHeading'>
+            <h3>Reviews</h3>
+            </div>
+            
+
+            {product.reviews && product.reviews[0] ?( <div className="reviews">
+                {product.reviews && product.reviews.map((review , index)=>{
+                  
+                   return <ReviewCard review = {review} key={index}/>
+                })}
+            </div> ):(<p className='noReivews'> No Reviews Yet </p>) }
+        </>)}
+       </>
     )
 }
 

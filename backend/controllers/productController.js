@@ -26,6 +26,9 @@ exports.getAllProducts = catchAsyncError(async (req, res , next) => {
 
 
 
+
+
+
     const productPerPage = 8;
     const productCount = await Product.countDocuments()
 
@@ -98,7 +101,6 @@ exports.deleteProduct = catchAsyncError(async (req, res, next) => {
 //get single product
 
 exports.getProductDetails = catchAsyncError(async (req, res, next) => {
-
   
     const product = await Product.findById(req.params.id);
 

@@ -1,6 +1,9 @@
 import React from "react";
 import {ReactNavbar} from "overlay-navbar"
 import logo from "/logo.png"
+import { MdAccountCircle } from "react-icons/md";
+import { FaCartShopping } from "react-icons/fa6";
+import { FaSearch } from "react-icons/fa";
 
 const Header = ()=>{
     return <ReactNavbar
@@ -15,9 +18,9 @@ const Header = ()=>{
     link3Text = "Contact"
     link4Text = "About"
     link1Url = "/"
-    link1Ur2 = "/product"
-    link1Ur3 = "/contact"
-    link1Ur4 = "/about"
+    link2Url = "/products"
+    link3Url = "/contact"
+    link4Url = "/about"
     link1Color = "#ADD8E6"
     nav1justifyContent = "flex-end"
     nav2justifyContent = "flex-end"
@@ -25,6 +28,20 @@ const Header = ()=>{
     nav4justifyContent = "flex-start"
     link1ColorHover = "green"
     link1Margin = "2vmax"
+    profileIcon = {true}
+    ProfileIconElement = {MdAccountCircle}
+    cartIcon = {true}
+    CartIconElement = {FaCartShopping } 
+    searchIcon = {true}
+    SearchIconElement = {FaSearch}
+    searchIconMargin = "2vw"
+    cartIconMargin = "2vw"
+    profileIconMargin = "2vw"
+    searchIconUrl = "/search"
+    cartIconUrl = "/cart"
+    profileIconUrl= "/profile"
+    
+
    
 
 
