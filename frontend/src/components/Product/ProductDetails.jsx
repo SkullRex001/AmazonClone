@@ -15,7 +15,6 @@ import {toast , Bounce} from 'react-toastify'
 
 const ProductDetails = () => {
     const { id } = useParams()
-    console.log(id)
     const dispatch = useDispatch();
     const { product, loading, error } = useSelector(state => state.productDetails)
     console.log(error)

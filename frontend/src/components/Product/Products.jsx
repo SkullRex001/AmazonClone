@@ -5,12 +5,15 @@ import Loader from '../layout/Loader/Loader'
 import Product from '../Home/Product'
 import { useDispatch , useSelector } from 'react-redux'
 import { toast  , Bounce} from 'react-toastify'
+import { useParams } from 'react-router-dom'
 
 
 
 const Products = () => {
     const dispatch  = useDispatch()
     const {loading , error , product , productCount} = useSelector(state =>state.products)
+
+    const {keyword} = useParams()
 
     useEffect(()=>{
 
@@ -28,8 +31,8 @@ const Products = () => {
               });
           }
 
-        dispatch(getProduct())
-    } , [dispatch , error])
+        dispatch(getProduct(keyword))
+    } , [dispatch , error , keyword])
 
 
 

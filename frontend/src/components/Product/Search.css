@@ -6,9 +6,7 @@
     justify-content: center;
     align-items: center;
     background-color: rgb(21, 86, 25);
-    position: fixed
-    
-
+    position: fixed;
 
 }
 
@@ -25,6 +23,20 @@
     box-sizing: border-box;
     height: 6%;
     
+
+}
+
+.searchBox>input[type = "submit" ]{
+    height: 6%;
+    background-color: rgba(8, 207, 11, 0.379);
+    border: none;
+    padding: 1vmax 2vmax;
+    width: 10%;
+    font-family: Roboto;
+    cursor: pointer;
+    color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+   
 
 
 }
