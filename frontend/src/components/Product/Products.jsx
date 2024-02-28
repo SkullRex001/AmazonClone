@@ -11,12 +11,23 @@ import { GrCaretNext } from "react-icons/gr";
 import { GrCaretPrevious } from "react-icons/gr";
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider';
+import NoProductFount from './NoProductFount.jsx'
+
+const Categories = [
+   "All" ,  "Laptop" , "Footwear" , "Bottom" , "Tops" , 
+    "Attire" , "Camera" , "SmartPhone"
+]
 
 
 const Products = () => {
-
+    const [liClass , setListClass] = useState(Array(9).fill("Notclicked"))
     const [currentPage, setCurrentPage] = useState(1)
     const [price, setPrice] = useState([0, 25000])
+    const [category , setCategory] = useState("")
+    function Clicked(id){
+        
+      
+    }
     const setCurrentPageNo = (e) => {
         setCurrentPage(e)
     }
@@ -51,14 +62,17 @@ const Products = () => {
             });
         }
 
-        dispatch(getProduct(keyword, currentPage , price))
-    }, [dispatch, error, keyword, currentPage , price])
+        dispatch(getProduct(keyword, currentPage , price ,category))
+    }, [dispatch, error, keyword, currentPage , price , category])
+
+
+    console.log(product[0])
 
 
 
     return (
         <>
-            {loading ? (<Loader />) : (<>
+            {loading ? (<Loader />) :(<>
                 <h1 className="productHeading">Products</h1>
                 <div className="products">
                     {
@@ -68,11 +82,14 @@ const Products = () => {
                         })}
                 </div>
 
-
+               <div className='filterDiv'>
                 <div className="filterBox">
+                    <h3>Filter</h3>
                     <Typography>
                         Price
                     </Typography>
+
+           
 
                     <Slider
 
@@ -85,8 +102,29 @@ const Products = () => {
                         step={1000}
 
                     />
+                    
+                    <div className="categoryyBox">
+                    <Typography>
+                        Categories
+                    </Typography>
+
+                    <ul className='categoryBox'>
+                        {
+                            Categories.map((item , index)=>{
+                              return ( <li className={""} key={index} onClick={()=>{setCategory(item) , Clicked()}}>
+                                    {item}
+
+                                </li>)
+                            })
+                        }
+
+                    </ul>
+                    </div>
+                    
 
 
+
+                </div>
 
                 </div>
 

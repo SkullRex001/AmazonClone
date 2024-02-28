@@ -80,11 +80,88 @@ h1{
     
 }
 
+.filterBox>p{
+    color: rgb(4, 76, 4);
+    font-family: Roboto;
+}
+
 .filterBox{
     width: 8vmax;
     position: absolute;
     top: 20vmax;
     left: 2vmax;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    padding: 5vw 1.5vw;
+
+}
+
+.filterBox>h3{
+    font-family: Roboto;
+    color: rgb(4, 76, 4);
+    position: relative;
+    top: -2vw;
+    cursor: pointer;
+
+}
+
+
+.categoryyBox{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 20px;
+  
+
+}
+
+.categoryyBox>p{
+    color: rgb(4, 76, 4);
+    font-family: Roboto;
+ 
+}
+
+.categoryLink{
+    list-style: none;
+    color: rgba(0, 0, 0, 0.628);
+    cursor: pointer;
+    margin: 5px;
+    font-family: Roboto;
+
+}
+
+.categoryLink:hover {
+    color:  rgb(4, 76, 4);
+    
+}
+
+.categoryLink>link:focus {
+    color:  red;
+    
+}
+
+
+
+
+@media screen and (max-width : 900px){
+
+    .filterBox{
+        position: static;
+        margin-bottom: 30px;
+        margin-top: -20px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 30%;
+       
+       
+    }
+    .filterDiv{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
 
 
 }

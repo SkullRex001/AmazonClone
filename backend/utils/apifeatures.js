@@ -27,7 +27,7 @@ class ApiFeatures {
 
     filter() {
         let querycopy = {...this.queryStr};
-        const removeFields = ["keyword" , "page" , "limit"]
+        const removeFields = ["keyword" , "page" , "limit" , "category"]
         removeFields.forEach((key)=> delete querycopy[key]);
 
         querycopy = JSON.stringify(querycopy)
@@ -47,6 +47,17 @@ class ApiFeatures {
         this.query = this.query.limit(productPerPage).skip(skip)
         return this;
 
+    }
+
+    category() {
+        const category = this.queryStr.category
+     
+        if(category) {
+          
+            this.query = this.query.find({category : category})
+        }
+       
+        return this
     }
 
 
