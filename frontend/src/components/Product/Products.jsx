@@ -14,19 +14,21 @@ import Slider from '@material-ui/core/Slider';
 import NoProductFount from './NoProductFount.jsx'
 
 const Categories = [
-   "All" ,  "Laptop" , "Footwear" , "Bottom" , "Tops" , 
-    "Attire" , "Camera" , "SmartPhone"
+    "All", "Laptop", "Footwear", "Bottom", "Tops",
+    "Attire", "Camera", "SmartPhone"
 ]
 
 
 const Products = () => {
-    const [liClass , setListClass] = useState(Array(9).fill("Notclicked"))
+    const [liClass, setListClass] = useState(Array(9).fill(false)) //notClicked
     const [currentPage, setCurrentPage] = useState(1)
     const [price, setPrice] = useState([0, 25000])
-    const [category , setCategory] = useState("")
-    function Clicked(id){
-        
-      
+    const [category, setCategory] = useState("")
+    function Clicked(id) {
+        const liClassCopy = liClass.map((item, index) => index === id);
+
+        setListClass(liClassCopy);
+
     }
     const setCurrentPageNo = (e) => {
         setCurrentPage(e)
@@ -40,9 +42,9 @@ const Products = () => {
 
 
     const dispatch = useDispatch()
-    const { loading, error, product, productCount, productPerPage , filteredProductsCount } = useSelector(state => state.products)
+    const { loading, error, product, productCount, productPerPage, filteredProductsCount } = useSelector(state => state.products)
 
-    
+
 
     const { keyword } = useParams()
 
@@ -62,8 +64,8 @@ const Products = () => {
             });
         }
 
-        dispatch(getProduct(keyword, currentPage , price ,category))
-    }, [dispatch, error, keyword, currentPage , price , category])
+        dispatch(getProduct(keyword, currentPage, price, category))
+    }, [dispatch, error, keyword, currentPage, price, category])
 
 
     console.log(product[0])
@@ -72,7 +74,7 @@ const Products = () => {
 
     return (
         <>
-            {loading ? (<Loader />) :(<>
+            {loading ? (<Loader />) : (<>
                 <h1 className="productHeading">Products</h1>
                 <div className="products">
                     {
@@ -82,49 +84,49 @@ const Products = () => {
                         })}
                 </div>
 
-               <div className='filterDiv'>
-                <div className="filterBox">
-                    <h3>Filter</h3>
-                    <Typography>
-                        Price
-                    </Typography>
+                <div className='filterDiv'>
+                    <div className="filterBox">
+                        <h3>Filter</h3>
+                        <Typography>
+                            Price
+                        </Typography>
 
-           
 
-                    <Slider
 
-                        value={price}
-                        onChange={priceHandler}
-                        valueLabelDisplay='auto'
-                        aria-labelledby='range-slider'
-                        min={0}
-                        max={25000}
-                        step={1000}
+                        <Slider
 
-                    />
-                    
-                    <div className="categoryyBox">
-                    <Typography>
-                        Categories
-                    </Typography>
+                            value={price}
+                            onChange={priceHandler}
+                            valueLabelDisplay='auto'
+                            aria-labelledby='range-slider'
+                            min={0}
+                            max={25000}
+                            step={1000}
 
-                    <ul className='categoryBox'>
-                        {
-                            Categories.map((item , index)=>{
-                              return ( <li className={""} key={index} onClick={()=>{setCategory(item) , Clicked()}}>
-                                    {item}
+                        />
 
-                                </li>)
-                            })
-                        }
+                        <div className="categoryyBox">
+                            <Typography>
+                                Categories
+                            </Typography>
 
-                    </ul>
+                            <ul className='categoryBox'>
+                                {
+                                    Categories.map((item, index) => {
+                                        return (<li className={liClass[index] ? "liClicked" : "liNotClicked"} key={index} onClick={() => { setCategory(item), Clicked(index) }}>
+                                            {item}
+
+                                        </li>)
+                                    })
+                                }
+
+                            </ul>
+                        </div>
+
+
+
+
                     </div>
-                    
-
-
-
-                </div>
 
                 </div>
 
