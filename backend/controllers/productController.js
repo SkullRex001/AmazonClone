@@ -5,8 +5,6 @@ const ApiFeatures = require('../utils/apifeatures')
 const Product = require('../models/productModel')
 
 
-
-
 //only admin can create 
 exports.createProduct = catchAsyncError(async (req, res, next) => {
 
@@ -24,11 +22,6 @@ exports.createProduct = catchAsyncError(async (req, res, next) => {
 //get all product
 exports.getAllProducts = catchAsyncError(async (req, res , next) => {
 
-
-
-
-
-
     const productPerPage = 8;
     const productCount = await Product.countDocuments()
 
@@ -38,12 +31,19 @@ exports.getAllProducts = catchAsyncError(async (req, res , next) => {
 
     const product = await apiFeature.query
 
-   
+    //original query was replaced by object so i made a new one
+
+    const apiFeatureCopy = new ApiFeatures(Product.find() , req.query).search().filter()
+
+    const filteredProducts = await apiFeatureCopy.query
+    const  filteredProductsCount = filteredProducts.length
 
     res.status(200).json({
         success: true,
         product,
-        productCount
+        productCount,
+        productPerPage,
+        filteredProductsCount
     })
 })
 

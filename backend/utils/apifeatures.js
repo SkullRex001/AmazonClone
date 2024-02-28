@@ -8,6 +8,7 @@ class ApiFeatures {
     constructor(query , queryStr) {
         this.query = query ;
         this.queryStr = queryStr;
+ 
     }
 
     search() {
@@ -17,7 +18,7 @@ class ApiFeatures {
                 $options : 'i'
             }
         }:{}
-
+       //here we are modifing query , if we call search and then call .query , it will be the modified query , simply we are chaning query with different modified find(____)
         this.query = this.query.find({...keyword})
         // this makes the returned object equal to query property so it can be later accessed by .(dot) operatior
         return this
@@ -47,6 +48,8 @@ class ApiFeatures {
         return this;
 
     }
+
+
 }
 
 module.exports = ApiFeatures;
