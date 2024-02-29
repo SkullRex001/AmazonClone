@@ -27,13 +27,22 @@ class ApiFeatures {
 
     filter() {
         let querycopy = {...this.queryStr};
+        console.log(this.queryStr)
         const removeFields = ["keyword" , "page" , "limit" , "category"]
         removeFields.forEach((key)=> delete querycopy[key]);
+        
+        
 
         querycopy = JSON.stringify(querycopy)
+
         querycopy = querycopy.replace(/\b(gt|gte|lt|lte)\b/g , (key=> `$${key}`))
-   
-        this.query = this.query.find(JSON.parse(querycopy));
+
+        let parsedQuery = JSON.parse(querycopy)
+
+        this.query = this.query.find(parsedQuery);
+ 
+        
+      
         return this
 
     }
@@ -51,14 +60,17 @@ class ApiFeatures {
 
     category() {
         const category = this.queryStr.category
+       
      
         if(category) {
           
             this.query = this.query.find({category : category})
         }
+    
        
         return this
     }
+
 
 
 }

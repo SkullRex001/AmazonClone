@@ -24,6 +24,7 @@ const Products = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [price, setPrice] = useState([0, 25000])
     const [category, setCategory] = useState("")
+    const [rating , setRatings] = useState(0)
     function Clicked(id) {
         const liClassCopy = liClass.map((item, index) => index === id);
 
@@ -64,8 +65,8 @@ const Products = () => {
             });
         }
 
-        dispatch(getProduct(keyword, currentPage, price, category))
-    }, [dispatch, error, keyword, currentPage, price, category])
+        dispatch(getProduct(keyword, currentPage, price, category , rating))
+    }, [dispatch, error, keyword, currentPage, price, category , rating])
 
 
     console.log(product[0])
@@ -121,6 +122,25 @@ const Products = () => {
                                 }
 
                             </ul>
+                        </div>
+
+                        <div className='RatingClass'>
+                           
+                            <Typography component="legend">
+                                Ratings Above
+                            </Typography>
+                            <Slider
+                            value={rating}
+                            onChange={(e , newRating)=>{
+                                setRatings(newRating)
+                            }}
+                            aria-labelledby='continuous-slider'
+                            min={0}
+                            max={5}
+                            valueLabelDisplay='auto'
+                            />
+                        
+
                         </div>
 
 

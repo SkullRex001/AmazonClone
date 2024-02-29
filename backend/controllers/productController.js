@@ -27,19 +27,22 @@ exports.getAllProducts = catchAsyncError(async (req, res , next) => {
 
 
     const apiFeature = new ApiFeatures(Product.find() , req.query).search().filter().pagination(productPerPage).category()
-  
+   
 
     const product = await apiFeature.query
+
+  
 
     //original query was replaced by object so i made a new one
 
     const apiFeatureCopy = new ApiFeatures(Product.find() , req.query).search().filter().category()
 
     const filteredProducts = await apiFeatureCopy.query
+
+
     const  filteredProductsCount = filteredProducts.length
 
-
-    console.log(req.query)
+  
 
   
 
