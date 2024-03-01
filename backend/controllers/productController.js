@@ -42,7 +42,7 @@ exports.getAllProducts = catchAsyncError(async (req, res , next) => {
 
     const  filteredProductsCount = filteredProducts.length
 
-  
+  console.log(product)
 
   
 

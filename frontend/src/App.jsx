@@ -12,6 +12,7 @@ import Products from "./components/Product/Products.jsx"
 import SearchHeader from './components/Product/SearchHeader.jsx';
 import Search from "./components/Product/Search.jsx"
 
+import LoginSignUp from './components/User/LoginSignUp.jsx';
 
 function App() {
   useEffect(()=>{
@@ -33,6 +34,8 @@ function App() {
     <Route path='/products' Component={Products}/>
     <Route path='/products/:keyword' Component={Products}/>
     <Route path='/search' element={<Search/>}/>
+    <Route path='/login' element={<LoginSignUp/>}/>
+    
     </Routes>
     <Footer/>
     </BrowserRouter>

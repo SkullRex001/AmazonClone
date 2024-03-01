@@ -79,10 +79,10 @@ const Products = () => {
                 <h1 className="productHeading">Products</h1>
                 <div className="products">
                     {
-                        product && product.map((EachProduct, index) => {
+                        product[0]?(product.map((EachProduct, index) => {
 
                             return <Product product={EachProduct} key={index} />
-                        })}
+                        })):<NoProductFount/>}
                 </div>
 
                 <div className='filterDiv'>

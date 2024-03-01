@@ -39,7 +39,8 @@ const Header = ()=>{
     profileIconMargin = "2vw"
     searchIconUrl = "/search"
     cartIconUrl = "/cart"
-    profileIconUrl= "/profile"
+    profileIconUrl= "/login"
+
     
 
    
