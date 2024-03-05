@@ -26,27 +26,29 @@ const LoginSignUp = () => {
   const registerTab = useRef() //RegisterForm
   const switcherTab = useRef() //loginButton
 
+  //can't we store ref of a dom element in state variable
+
   const loginSubmit = () => {
     console.log("login form Submit")
   }
 
   const switchTabs = (e, tab) => {
     if (tab === "login") {
-      switcherTab.current.classList.add("shiftToNeutral")
-      switcherTab.current.classList.remove("shiftToRignt")
-
-      registerTab.current.classList.remove("shiftToNeutralForm")
-      loginTab.current.classList.remove("shiftToLeft")
+      switcherTab.current.classList.add("shiftToNeutral");
+      switcherTab.current.classList.remove("shiftToRight");
+  
+      registerTab.current.classList.remove("shiftToNeutralForm");
+      loginTab.current.classList.remove("shiftToLeft");
     }
     if (tab === "register") {
-      switcherTab.current.classList.add("shiftToRight")
-      switcherTab.current.classList.remove("shiftToNeutral")
-
-      registerTab.current.classList.remove("shiftToNeutralForm")
-      loginTab.current.classList.remove("shiftToLeft")
+      switcherTab.current.classList.add("shiftToRight");
+      switcherTab.current.classList.remove("shiftToNeutral");
+  
+      registerTab.current.classList.add("shiftToNeutralForm");
+      loginTab.current.classList.add("shiftToLeft");
     }
-  }
-
+  };
+  
   //submit register form
 
   const registerSubmit = (e) =>{
@@ -61,6 +63,22 @@ const LoginSignUp = () => {
   }
 
   const registerDataChange = (e)=>{
+    if(e.target.name === "avatar"){
+      const reader = new FileReader();
+      reader.onload = ()=>{
+        if(reader.readyState===2){
+          setAvatarPreview(reader.result);
+          setAvatar(reader.result)
+        }
+      }
+
+      reader.readAsDataURL(e.target.files[0])
+
+
+    }
+    else{
+      setUser({...user , [e.target.name] : e.target.value})
+    }
     
   }
 
@@ -69,7 +87,7 @@ const LoginSignUp = () => {
 
   return (
     <>
-      <div className='LoginSignUpConrainer'>
+      <div className='LoginSignUpContainer'>
         <div className='LoginSignUpBox'>
           <div>
             <div className='login_signUp_toggle'>
