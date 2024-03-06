@@ -69,10 +69,6 @@ const Products = () => {
     }, [dispatch, error, keyword, currentPage, price, category , rating])
 
 
-    console.log(product[0])
-
-
-
     return (
         <>
             {loading ? (<Loader />) : (<>

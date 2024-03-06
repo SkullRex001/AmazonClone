@@ -5,8 +5,18 @@ import { MdMailOutline } from "react-icons/md";
 import { MdLockOutline } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import { CiFaceSmile } from "react-icons/ci";
+import  login  from '../../actions/userAction';
+import {useSelector , useDispatch} from 'react-redux'
+
+
+
 
 const LoginSignUp = () => {
+
+  const dispatch = useDispatch()
+
+
+
 
   const [loginEmail, setLoginEmail] = useState("")
   const [loginPassword, setLoginPassword] = useState("")
@@ -28,8 +38,10 @@ const LoginSignUp = () => {
 
   //can't we store ref of a dom element in state variable
 
-  const loginSubmit = () => {
-    console.log("login form Submit")
+  const loginSubmit = (e) => {
+    e.preventDefault()
+    dispatch(login(loginEmail , loginPassword))
+
   }
 
   const switchTabs = (e, tab) => {
